@@ -13,7 +13,11 @@
     <Version>1.0.4</Version>
     <Authors>Jérôme FRANCOIS, JB-OPale Teams</Authors>
     <Company>JBOPale</Company>
-    <Copyright>Copyright JB-OPale 2026</Copyright>
+    <Copyright>Copyright (C) 2026 JB-OPale</Copyright>
+    <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/jbopale/mathadvanced</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <Description>Ensemble de méthodes et de classes mathématiques</Description>
     <PackageTags>JB-OPale Extensions Math MathAdvanced</PackageTags>
     <PackageProjectUrl></PackageProjectUrl>
@@ -31,5 +35,10 @@
     <Nullable>enable</Nullable>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
-  
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\COPYING;..\COPYING.LESSER" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
 </Project>
