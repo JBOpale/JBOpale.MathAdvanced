@@ -1,5 +1,5 @@
-﻿// SPDX-License-Identifier: LGPL-3.0-or-later
-// Copyright (C) 2026 Jérôme FRANCOIS / JB-Opale — voir LICENSE.md / see LICENSE.md
+﻿// SPDX-License-Identifier: MIT
+// Copyright (C) 2026 Jérôme FRANCOIS / JB-Opale — voir LICENSE / see LICENSE
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -5,5 +5,5 @@ vecteurs, points, géométrie) pour .NET Framework 4.6.1 et .NET 10.
 
 ## Licence
 
-[LGPL-3.0-or-later](LICENSE.md) — utilisable dans des applications commerciales
-et propriétaires (liaison dynamique, voir [`LICENSE.md`](LICENSE.md)).
+[MIT](LICENSE) — utilisation libre, y compris dans des applications commerciales
+et propriétaires, à condition de conserver la mention de copyright.

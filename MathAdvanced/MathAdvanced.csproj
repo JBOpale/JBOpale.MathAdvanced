@@ -14,7 +14,7 @@
     <Authors>Jérôme FRANCOIS, JB-OPale Teams</Authors>
     <Company>JBOPale</Company>
     <Copyright>Copyright (C) 2026 JB-OPale</Copyright>
-    <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/jbopale/mathadvanced</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -38,7 +38,7 @@
 
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\" />
-    <None Include="..\COPYING;..\COPYING.LESSER" Pack="true" PackagePath="\" />
+    <None Include="..\LICENSE" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
