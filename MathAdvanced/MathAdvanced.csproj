@@ -16,11 +16,11 @@
     <Copyright>Copyright (C) 2026 JB-OPale</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/jbopale/mathadvanced</RepositoryUrl>
+    <RepositoryUrl>https://github.com/JBOpale/MathAdvanced.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Description>Ensemble de méthodes et de classes mathématiques</Description>
     <PackageTags>JB-OPale Extensions Math MathAdvanced</PackageTags>
-    <PackageProjectUrl></PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/JBOpale/MathAdvanced</PackageProjectUrl>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
