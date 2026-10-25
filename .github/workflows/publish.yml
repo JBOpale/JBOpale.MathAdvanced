@@ -47,16 +47,18 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore /p:Version=${{ steps.version.outputs.VERSION }}
 
+      # Garde-fou : tous les tests (net461 et net10.0) doivent passer. En cas
+      # d'échec, le job s'arrête ici et ni Pack ni Push ne sont exécutés.
       - name: Test
-        run: dotnet test --configuration Release --no-restore
+        run: dotnet test --configuration Release --no-build
 
       - name: Pack
         run: |
           dotnet pack MathAdvanced/MathAdvanced.csproj \
             --configuration Release \
-            --no-restore \
+            --no-build \
             --output ./nupkgs \
             /p:Version=${{ steps.version.outputs.VERSION }}
 
