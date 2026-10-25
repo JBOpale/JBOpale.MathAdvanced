@@ -5,16 +5,17 @@ vecteurs, points, géométrie) pour .NET Framework 4.6.1 et .NET 10.
 
 ## Skill Claude
 
-Le paquet NuGet embarque un skill Claude (`MathAdvanced/package/skills/mathadvanced/SKILL.md`).
-À la compilation d'un projet qui référence `MathAdvanced`, il est copié dans
-`<projet>/.claude/skills/mathadvanced/` pour que Claude Code connaisse l'API.
-Pour le désactiver :
+Le paquet NuGet contient un skill Claude : `skills/mathadvanced/SKILL.md` (à la racine du
+`.nupkg`). Il décrit l'API (classes, méthodes, pièges comme les indices de `Matrix` en base 1
+ou les conflits de noms avec `System.Numerics`). Rien n'est copié automatiquement dans votre projet.
 
-```xml
-<PropertyGroup>
-  <MathAdvancedInstallClaudeSkill>false</MathAdvancedInstallClaudeSkill>
-</PropertyGroup>
-```
+Pour que Claude (Claude Code) l'utilise, récupérez-le si besoin :
+
+- sur nuget.org, page du paquet → **Download package**, puis ouvrez le `.nupkg` (c'est une archive zip) ;
+- ou depuis le cache local : `~/.nuget/packages/mathadvanced/<version>/skills/mathadvanced/SKILL.md` ;
+- ou directement dans ce dépôt : [`MathAdvanced/package/skills/mathadvanced/SKILL.md`](MathAdvanced/package/skills/mathadvanced/SKILL.md).
+
+Copiez ensuite le fichier dans `<votre projet>/.claude/skills/mathadvanced/SKILL.md`.
 
 ## Licence
 
