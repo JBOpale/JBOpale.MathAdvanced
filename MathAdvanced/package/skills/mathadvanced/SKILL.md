@@ -28,6 +28,7 @@ Référence : https://github.com/JBOpale/MathAdvanced
 | `NumberTheory` | `Gcd`, `Lcm`, `IsPrime`, `PrimeFactors`, `Factorial`, `Binomial`, `Fibonacci` (n ≤ 92), `PowMod` |
 | `Statistics` | `Mean`, `Median`, `Percentile`, `Variance`, `StandardDeviation`, `Covariance`, `Correlation`, `LinearRegression` |
 | `Numerics` | `Clamp`, `Lerp`, `AlmostEqual`, `Derivative`, `Integrate` (Simpson), `Bisection`, `Newton` |
+| `MeshQuality` | Qualité de maillage (angles en degrés) : triangles (`TriangleAspectRatio`, `TriangleShape`, `TriangleSkewness`…), quadrilatères (`QuadSkew`, `QuadTaper`, `QuadWarpage`, `QuadScaledJacobian`…), tétraèdres (`TetrahedronRadiusRatio`, `TetrahedronMeanRatio`, `TetrahedronDihedralAngles`…), hexaèdres en ordre VTK (`HexahedronScaledJacobian`, `HexahedronCondition`…), volumes finis (`NonOrthogonality`, `FaceSkewness`, `ExpansionRatio`), statistiques (`Summarize`, `Histogram`, `CountBelow`) |
 
 ## Exemples
 

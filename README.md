@@ -3,6 +3,13 @@
 Ensemble de méthodes et de classes mathématiques (nombres complexes, matrices,
 vecteurs, points, géométrie) pour .NET Framework 4.6.1 et .NET 10.
 
+## Qualité de maillage
+
+`MeshQuality` regroupe les métriques usuelles de simulation numérique (éléments finis / volumes finis) :
+triangles, quadrilatères, tétraèdres, hexaèdres (ordre VTK) — rapport de forme, rapport des rayons,
+forme moyenne, obliquité, effilement, gauchissement, Jacobien normalisé, conditionnement, angles dièdres —
+ainsi que non-orthogonalité, obliquité de face, rapport d'expansion et statistiques (`Summarize`, `Histogram`).
+
 ## Skill Claude
 
 Le paquet NuGet contient un skill Claude : `skills/mathadvanced/SKILL.md` (à la racine du
