@@ -6,8 +6,9 @@
 dotnet add package JBOpale.MathAdvanced
 ```
 
-> **Migration :** ce paquet remplace `MathAdvanced` (1.x). L'espace de noms reste `JBOPaleAPI.MathAdvanced` ;
-> seul l'identifiant du paquet et le nom de l'assembly (`JBOpale.MathAdvanced.dll`) changent.
+> **Migration :** ce paquet remplace `MathAdvanced` (1.x). Changements cassants de la 2.0 : l'identifiant du paquet,
+> l'assembly (`JBOpale.MathAdvanced.dll`) et l'espace de noms (`JBOPaleAPI.MathAdvanced` devient `JBOpale.MathAdvanced`).
+> Remplacez `using JBOPaleAPI.MathAdvanced;` par `using JBOpale.MathAdvanced;`.
 
 Ensemble de méthodes et de classes mathématiques (nombres complexes, matrices,
 vecteurs, points, géométrie) pour .NET Framework 4.6.1 et .NET 10.

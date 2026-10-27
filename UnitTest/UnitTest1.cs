@@ -11,7 +11,7 @@ namespace UnitTest
         {
             double[] pts = new double[] { 0, 0, 0 };
 
-            JBOPaleAPI.MathAdvanced.Point p = pts;
+            JBOpale.MathAdvanced.Point p = pts;
         }
     }
 }

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net461;net10.0</TargetFrameworks>
     <AssemblyName>JBOpale.MathAdvanced</AssemblyName>
-    <RootNamespace>JBOPaleAPI</RootNamespace>
+    <RootNamespace>JBOpale</RootNamespace>
     <Deterministic>true</Deterministic>
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>

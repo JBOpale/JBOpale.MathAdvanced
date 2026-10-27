@@ -1,17 +1,17 @@
 ---
 name: jbopale-mathadvanced
-description: Utiliser lorsque le code C# référence le paquet NuGet JBOpale.MathAdvanced (namespace JBOPaleAPI.MathAdvanced) pour des nombres complexes, matrices, vecteurs/points 3D, géométrie, arithmétique entière, statistiques ou calcul numérique. Use when C# code uses the JBOpale.MathAdvanced NuGet package.
+description: Utiliser lorsque le code C# référence le paquet NuGet JBOpale.MathAdvanced (namespace JBOpale.MathAdvanced) pour des nombres complexes, matrices, vecteurs/points 3D, géométrie, arithmétique entière, statistiques ou calcul numérique. Use when C# code uses the JBOpale.MathAdvanced NuGet package.
 ---
 
-# JBOpale.MathAdvanced (namespace JBOPaleAPI.MathAdvanced)
+# JBOpale.MathAdvanced (namespace JBOpale.MathAdvanced)
 
-Bibliothèque mathématique MIT, cibles `net461` et `net10.0`. Namespace : `JBOPaleAPI.MathAdvanced`.
+Bibliothèque mathématique MIT, cibles `net461` et `net10.0`. Namespace : `JBOpale.MathAdvanced`.
 Référence : https://github.com/JBOpale/MathAdvanced
 
 ## Règles à respecter
 
 - **Conflits de noms** : `Complex`, `Matrix`, `Point`, `Math` existent aussi dans `System.Numerics`, `System.Windows`, `System.Drawing`… Qualifier ou utiliser un alias :
-  `using MComplex = JBOPaleAPI.MathAdvanced.Complex;`. Dans ce namespace, appeler `System.Math.X` explicitement.
+  `using MComplex = JBOpale.MathAdvanced.Complex;`. Dans ce namespace, appeler `System.Math.X` explicitement.
 - **Matrix** : indices en **base 1**, éléments de type `Complex` (pas `double`).
 - Ne pas réinventer ce que la bibliothèque fournit déjà : chercher d'abord dans les classes ci-dessous.
 - Les API signalent les erreurs par exception (`ArgumentException`, `ArgumentOutOfRangeException`, `OverflowException`) : ne pas les avaler.
@@ -33,7 +33,7 @@ Référence : https://github.com/JBOpale/MathAdvanced
 ## Exemples
 
 ```csharp
-using JBOPaleAPI.MathAdvanced;
+using JBOpale.MathAdvanced;
 
 double r2 = Statistics.LinearRegression(x, y, out double slope, out double intercept);
 double area = Numerics.Integrate(System.Math.Sin, 0, System.Math.PI);       // ≈ 2

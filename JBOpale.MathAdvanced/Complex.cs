@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 #pragma warning disable CS8765
 
-namespace JBOPaleAPI.MathAdvanced
+namespace JBOpale.MathAdvanced
 {
     /// <summary>
     /// <para><b>[FR]</b> Représente un nombre complexe sous la forme z = Re + i·Im,

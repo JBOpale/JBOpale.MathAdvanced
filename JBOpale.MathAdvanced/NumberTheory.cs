@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace JBOPaleAPI.MathAdvanced
+namespace JBOpale.MathAdvanced
 {
     /// <summary>
     /// <para><b>[FR]</b> Fonctions d'arithmétique et de théorie des nombres sur entiers

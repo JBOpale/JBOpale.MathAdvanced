@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 // Copyright (C) 2026 Jérôme FRANCOIS / JB-Opale — voir LICENSE / see LICENSE
-using JBOPaleAPI.MathAdvanced;
+using JBOpale.MathAdvanced;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
