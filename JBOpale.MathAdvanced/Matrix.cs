@@ -1,4 +1,6 @@
-﻿using System;
+﻿// SPDX-License-Identifier: MIT
+// Copyright (C) 2026 Jérôme FRANCOIS / JB-Opale — voir LICENSE / see LICENSE
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
@@ -10,7 +12,7 @@ using System.Diagnostics;
 #pragma warning disable CS8604 // Argument de référence null possible
 #pragma warning disable CS8605 // Unboxing d'une valeur null possible
 
-namespace JBOPaleAPI.MathAdvanced
+namespace JBOpale.MathAdvanced
 {
     /// <summary>
     /// <para><b>[FR]</b> Représente une matrice de nombres complexes de dimensions m × n.

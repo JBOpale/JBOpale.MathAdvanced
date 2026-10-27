@@ -1,10 +1,12 @@
-﻿using System;
+﻿// SPDX-License-Identifier: MIT
+// Copyright (C) 2026 Jérôme FRANCOIS / JB-Opale — voir LICENSE / see LICENSE
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JBOPaleAPI.MathAdvanced
+namespace JBOpale.MathAdvanced
 {
     /// <summary>
     /// <para><b>[FR]</b> Représente un vecteur tridimensionnel (X, Y, Z) dans l'espace euclidien.
@@ -308,6 +310,9 @@ namespace JBOPaleAPI.MathAdvanced
         /// </summary>
         public static bool operator ==(Vecteur a, Vecteur b)
         {
+            // ReferenceEquals : évite la récursion de « == null » et une NullReferenceException.
+            if (ReferenceEquals(a, b)) return true;
+            if (ReferenceEquals(a, null) || ReferenceEquals(b, null)) return false;
             return a.X == b.X && a.Y == b.Y && a.Z == b.Z;
         }
 
@@ -317,7 +322,7 @@ namespace JBOPaleAPI.MathAdvanced
         /// </summary>
         public static bool operator !=(Vecteur a, Vecteur b)
         {
-            return a.X != b.X || a.Y != b.Y || a.Z != b.Z;
+            return !(a == b);
         }
 
         /// <inheritdoc/>

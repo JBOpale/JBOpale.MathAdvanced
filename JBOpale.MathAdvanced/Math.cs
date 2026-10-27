@@ -1,10 +1,12 @@
-﻿using System;
+﻿// SPDX-License-Identifier: MIT
+// Copyright (C) 2026 Jérôme FRANCOIS / JB-Opale — voir LICENSE / see LICENSE
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JBOPaleAPI.MathAdvanced
+namespace JBOpale.MathAdvanced
 {
     /// <summary>
     /// <para><b>[FR]</b> Fournit des méthodes utilitaires mathématiques et géométriques pour les

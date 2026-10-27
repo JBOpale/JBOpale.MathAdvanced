@@ -1,10 +1,12 @@
-﻿using System;
+﻿// SPDX-License-Identifier: MIT
+// Copyright (C) 2026 Jérôme FRANCOIS / JB-Opale — voir LICENSE / see LICENSE
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 #pragma warning disable CS8765
 
-namespace JBOPaleAPI.MathAdvanced
+namespace JBOpale.MathAdvanced
 {
     /// <summary>
     /// <para><b>[FR]</b> Représente un nombre complexe sous la forme z = Re + i·Im,
@@ -296,6 +298,9 @@ namespace JBOPaleAPI.MathAdvanced
         /// </summary>
         public static bool operator ==(Complex a, Complex b)
         {
+            // ReferenceEquals : évite la récursion de « == null » et une NullReferenceException.
+            if (ReferenceEquals(a, b)) return true;
+            if (ReferenceEquals(a, null) || ReferenceEquals(b, null)) return false;
             return (a.Re == b.Re && a.Im == b.Im);
         }
 

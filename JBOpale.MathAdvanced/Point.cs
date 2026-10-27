@@ -1,10 +1,12 @@
-﻿using System;
+﻿// SPDX-License-Identifier: MIT
+// Copyright (C) 2026 Jérôme FRANCOIS / JB-Opale — voir LICENSE / see LICENSE
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JBOPaleAPI.MathAdvanced
+namespace JBOpale.MathAdvanced
 {
     /// <summary>
     /// <para><b>[FR]</b> Représente un point tridimensionnel (X, Y, Z) dans l'espace euclidien.
@@ -158,8 +160,9 @@ namespace JBOPaleAPI.MathAdvanced
         /// </returns>
         public static bool operator ==(Point a, Point b)
         {
-            if (a == null && b == null) return true;
-            if (a == null || b == null) return false;
+            // ReferenceEquals : « a == null » rappellerait cet opérateur à l'infini (StackOverflow).
+            if (ReferenceEquals(a, b)) return true;
+            if (ReferenceEquals(a, null) || ReferenceEquals(b, null)) return false;
 
             return
                 System.Math.Round(a.X, 3) == System.Math.Round(b.X, 3) &&
