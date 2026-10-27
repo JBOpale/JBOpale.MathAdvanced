@@ -298,6 +298,9 @@ namespace JBOpale.MathAdvanced
         /// </summary>
         public static bool operator ==(Complex a, Complex b)
         {
+            // ReferenceEquals : évite la récursion de « == null » et une NullReferenceException.
+            if (ReferenceEquals(a, b)) return true;
+            if (ReferenceEquals(a, null) || ReferenceEquals(b, null)) return false;
             return (a.Re == b.Re && a.Im == b.Im);
         }
 
