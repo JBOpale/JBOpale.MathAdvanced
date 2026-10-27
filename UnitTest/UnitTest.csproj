@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MathAdvanced\MathAdvanced.csproj" />
+    <ProjectReference Include="..\JBOpale.MathAdvanced\JBOpale.MathAdvanced.csproj" />
   </ItemGroup>
 
 </Project>

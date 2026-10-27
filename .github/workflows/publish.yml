@@ -6,65 +6,70 @@ on:
       - 'v*'
 
 jobs:
-  publish:
+  # La publication est bloquée tant que tous les tests ne passent pas, sur net461 et net10.0.
+  test:
     runs-on: [self-hosted, Windows, SURFACE-BOOK-3]
-    # Les steps ci-dessous utilisent une syntaxe bash (expansion de paramètres,
-    # continuations par \) — le shell par défaut sur ce runner Windows est
-    # PowerShell, donc on force bash pour tout le job plutôt que step par step.
-    defaults:
-      run:
-        shell: bash
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Contournement : 'bash' résout par défaut vers le stub WSL de
-      # C:\WINDOWS\System32 (aucune distribution installée, échec immédiat)
-      # plutôt que Git Bash sur ce runner — Git\cmd est dans le PATH mais pas
-      # Git\bin (qui contient bash.exe). Prépendre Git\bin corrige la
-      # résolution pour tous les steps `shell: bash` qui suivent.
-      - name: Configure PATH for Git Bash (contournement résolution WSL)
-        shell: pwsh
-        run: '"C:\Program Files\Git\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append'
-
-      # Contournement permissions runner (Program Files non accessible en
-      # écriture selon l'état du service actions-runner) — voir Vigie/CLAUDE.md.
-      - name: Configure dotnet install directory (contournement permissions runner)
-        shell: pwsh
-        run: echo "DOTNET_INSTALL_DIR=$env:LOCALAPPDATA\dotnet" >> $env:GITHUB_ENV
-
-      - name: Setup .NET
+      - name: Installer le SDK .NET 10
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
 
-      - name: Extraire la version depuis le tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      - name: Tests (net461 et net10.0)
+        run: dotnet test JBOpale.MathAdvanced.sln --configuration Release
 
-      - name: Restore
-        run: dotnet restore
+  publish:
+    needs: test
+    runs-on: [self-hosted, Windows, SURFACE-BOOK-3]
+    # Trusted Publishing : id-token: write permet l'échange OIDC contre une clé NuGet temporaire.
+    # Aucun secret NUGET_API_KEY n'est utilisé.
+    permissions:
+      contents: read
+      id-token: write
 
-      - name: Build
-        run: dotnet build --configuration Release --no-restore /p:Version=${{ steps.version.outputs.VERSION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      # Garde-fou : tous les tests (net461 et net10.0) doivent passer. En cas
-      # d'échec, le job s'arrête ici et ni Pack ni Push ne sont exécutés.
-      - name: Test
-        run: dotnet test --configuration Release --no-build
+      - name: Installer le SDK .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
 
-      - name: Pack
+      - name: Pack NuGet
+        shell: pwsh
         run: |
-          dotnet pack MathAdvanced/MathAdvanced.csproj \
-            --configuration Release \
-            --no-build \
-            --output ./nupkgs \
-            /p:Version=${{ steps.version.outputs.VERSION }}
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          dotnet pack JBOpale.MathAdvanced/JBOpale.MathAdvanced.csproj --configuration Release -p:Version=$version --output nupkg
+
+      - name: Vérifier le contenu du package
+        shell: pwsh
+        run: |
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $pkg = Get-ChildItem -Path nupkg -Filter *.nupkg | Select-Object -First 1
+          $zip = [System.IO.Compression.ZipFile]::OpenRead($pkg.FullName)
+          $names = $zip.Entries | ForEach-Object { $_.FullName }
+          $zip.Dispose()
+          foreach ($attendu in 'lib/net461/JBOpale.MathAdvanced.dll', 'lib/net10.0/JBOpale.MathAdvanced.dll', 'skills/jbopale-mathadvanced/SKILL.md', 'README.md', 'LICENSE') {
+            if ($names -notcontains $attendu) { throw "Fichier manquant dans le package : $attendu" }
+          }
+
+      # Trusted Publishing : jeton OIDC éphémère échangé contre une clé temporaire.
+      # `user` est le nom de profil du compte NuGet qui a créé la politique (pas l'organisation propriétaire).
+      - name: Connexion à NuGet (Trusted Publishing)
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: Kolth
 
       - name: Push to NuGet
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
         run: |
-          dotnet nuget push ./nupkgs/*.nupkg \
-            --api-key ${{ secrets.NUGET_API_KEY }} \
-            --source https://api.nuget.org/v3/index.json \
-            --skip-duplicate
+          $pkg = Get-ChildItem -Path nupkg -Filter *.nupkg | Select-Object -First 1
+          dotnet nuget push $pkg.FullName --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate

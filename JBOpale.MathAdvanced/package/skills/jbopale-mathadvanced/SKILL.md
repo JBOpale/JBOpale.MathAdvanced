@@ -1,9 +1,9 @@
 ---
-name: mathadvanced
-description: Utiliser lorsque le code C# référence le paquet NuGet MathAdvanced (namespace JBOPaleAPI.MathAdvanced) pour des nombres complexes, matrices, vecteurs/points 3D, géométrie, arithmétique entière, statistiques ou calcul numérique. Use when C# code uses the MathAdvanced NuGet package.
+name: jbopale-mathadvanced
+description: Utiliser lorsque le code C# référence le paquet NuGet JBOpale.MathAdvanced (namespace JBOPaleAPI.MathAdvanced) pour des nombres complexes, matrices, vecteurs/points 3D, géométrie, arithmétique entière, statistiques ou calcul numérique. Use when C# code uses the JBOpale.MathAdvanced NuGet package.
 ---
 
-# MathAdvanced (JBOPaleAPI.MathAdvanced)
+# JBOpale.MathAdvanced (namespace JBOPaleAPI.MathAdvanced)
 
 Bibliothèque mathématique MIT, cibles `net461` et `net10.0`. Namespace : `JBOPaleAPI.MathAdvanced`.
 Référence : https://github.com/JBOpale/MathAdvanced

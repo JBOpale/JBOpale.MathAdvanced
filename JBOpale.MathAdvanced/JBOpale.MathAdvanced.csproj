@@ -2,15 +2,15 @@
 
   <PropertyGroup>
     <TargetFrameworks>net461;net10.0</TargetFrameworks>
-    <AssemblyName>JBOPaleAPI.MathAdvanced</AssemblyName>
+    <AssemblyName>JBOpale.MathAdvanced</AssemblyName>
     <RootNamespace>JBOPaleAPI</RootNamespace>
     <Deterministic>true</Deterministic>
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
 
     <!-- NuGet metadata (remplace le .nuspec) -->
-    <PackageId>MathAdvanced</PackageId>
-    <Version>1.0.4</Version>
+    <PackageId>JBOpale.MathAdvanced</PackageId>
+    <Version>2.0.0</Version>
     <Authors>Jérôme FRANCOIS, JB-OPale Teams</Authors>
     <Company>JBOPale</Company>
     <Copyright>Copyright (C) 2026 JB-OPale</Copyright>
@@ -39,7 +39,7 @@
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\" />
     <None Include="..\LICENSE" Pack="true" PackagePath="\" />
-    <None Update="package\skills\mathadvanced\SKILL.md" Pack="true" PackagePath="skills\mathadvanced\" />
+    <None Update="package\skills\jbopale-mathadvanced\SKILL.md" Pack="true" PackagePath="skills\jbopale-mathadvanced\" />
   </ItemGroup>
 
 </Project>
