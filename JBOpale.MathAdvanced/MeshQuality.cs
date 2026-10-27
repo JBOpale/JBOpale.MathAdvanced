@@ -46,7 +46,7 @@ namespace JBOpale.MathAdvanced
             public V(double x, double y, double z) { X = x; Y = y; Z = z; }
             public static V From(Point p, string name)
             {
-                if (p == null) throw new ArgumentNullException(name);
+                if (ReferenceEquals(p, null)) throw new ArgumentNullException(name);
                 return new V(p.X, p.Y, p.Z);
             }
             public static V operator +(V a, V b) { return new V(a.X + b.X, a.Y + b.Y, a.Z + b.Z); }
