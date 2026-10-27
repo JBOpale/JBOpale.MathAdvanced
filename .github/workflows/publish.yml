@@ -54,6 +54,7 @@ jobs:
           $zip = [System.IO.Compression.ZipFile]::OpenRead($pkg.FullName)
           $names = $zip.Entries | ForEach-Object { $_.FullName }
           $zip.Dispose()
+          Write-Host "Contenu du package :"; $names | ForEach-Object { Write-Host "  $_" }
           foreach ($attendu in 'lib/net461/JBOpale.MathAdvanced.dll', 'lib/net10.0/JBOpale.MathAdvanced.dll', 'skills/jbopale-mathadvanced/SKILL.md', 'README.md', 'LICENSE') {
             if ($names -notcontains $attendu) { throw "Fichier manquant dans le package : $attendu" }
           }
