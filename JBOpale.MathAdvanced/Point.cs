@@ -160,8 +160,9 @@ namespace JBOpale.MathAdvanced
         /// </returns>
         public static bool operator ==(Point a, Point b)
         {
-            if (a == null && b == null) return true;
-            if (a == null || b == null) return false;
+            // ReferenceEquals : « a == null » rappellerait cet opérateur à l'infini (StackOverflow).
+            if (ReferenceEquals(a, b)) return true;
+            if (ReferenceEquals(a, null) || ReferenceEquals(b, null)) return false;
 
             return
                 System.Math.Round(a.X, 3) == System.Math.Round(b.X, 3) &&
