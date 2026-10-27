@@ -6,7 +6,7 @@ description: Utiliser lorsque le code C# référence le paquet NuGet JBOpale.Mat
 # JBOpale.MathAdvanced (namespace JBOpale.MathAdvanced)
 
 Bibliothèque mathématique MIT, cibles `net461` et `net10.0`. Namespace : `JBOpale.MathAdvanced`.
-Référence : https://github.com/JBOpale/MathAdvanced
+Référence : https://github.com/JBOpale/JBOpale.MathAdvanced
 
 ## Règles à respecter
 
