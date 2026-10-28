@@ -45,3 +45,4 @@ Un tag `v*` lance `publish.yml` : tests (net461 et net10.0), `dotnet pack`, cont
 puis envoi sur nuget.org par **Trusted Publishing** (jeton OIDC éphémère, aucune clé d'API stockée).
 La branche par défaut est protégée par le ruleset `.github/rulesets/protection-main.json`
 (pull request obligatoire, check `test` vert, pas de suppression ni de force-push).
+Les tags `v*` sont protégés par `.github/rulesets/protection-tags.json` (seul le rôle admin peut en créer, déplacer ou supprimer).
