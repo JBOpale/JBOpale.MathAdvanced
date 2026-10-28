@@ -16,6 +16,7 @@
     <Copyright>Copyright (C) 2026 JB-OPale</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/JBOpale/JBOpale.MathAdvanced.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Description>Ensemble de méthodes et de classes mathématiques</Description>
@@ -39,6 +40,7 @@
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\" />
     <None Include="..\LICENSE" Pack="true" PackagePath="\" />
+    <None Include="icon.png" Pack="true" PackagePath="\" />
     <!-- Remove puis Include : l'élément « None » par défaut du SDK (glob **/*) est remplacé par un élément explicite à empaqueter. -->
     <None Remove="package\skills\jbopale-mathadvanced\SKILL.md" />
     <None Include="package\skills\jbopale-mathadvanced\SKILL.md" Pack="true" PackagePath="skills/jbopale-mathadvanced/" />
