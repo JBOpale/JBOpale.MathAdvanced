@@ -1,4 +1,4 @@
-name: Tests
+name: JBOpale.MathAdvanced - Tests
 
 # Valide les tests avant de fusionner ou de tagger une version (v*).
 # Le job s'appelle `test` : c'est le contexte exigé par le ruleset « Protection de la branche par défaut ».
