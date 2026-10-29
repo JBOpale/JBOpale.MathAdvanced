@@ -4,7 +4,7 @@ name: Tests
 # Le job s'appelle `test` : c'est le contexte exigé par le ruleset « Protection de la branche par défaut ».
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
 
 jobs:
