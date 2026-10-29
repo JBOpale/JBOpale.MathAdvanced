@@ -1,4 +1,4 @@
-name: Publish NuGet
+name: JBOpale.MathAdvanced - Publish NuGet
 
 on:
   push:
