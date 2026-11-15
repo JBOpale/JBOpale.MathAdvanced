@@ -48,3 +48,16 @@ Cette règle s'applique à tout nouveau workflow créé dans `.github/workflows/
 - Toute session utilise le skill `suivi-actions` pour le tenir à jour à la fin de chaque chantier, et chaque fois qu'elle rend la main avec une action qui dépend de lui (décision, validation, étape manuelle, secret à créer, PR à fusionner, ruleset à importer, réponse externe).
 - Lire l'existant avant d'ajouter (pas de doublon) ; passer à `doing` / `done` ce qui avance.
 - Jamais de secret dans le tableau ; ne jamais supprimer une action.
+
+## Règle : couverture de code
+
+- Chaque pull request doit couvrir par des tests **au moins 90 % des lignes couvrables qu'elle ajoute ou modifie** (fichiers `*.cs` hors `UnitTest/`, `tests/`, `obj/`).
+- La couverture globale des lignes ne doit **jamais baisser** : elle doit rester au moins égale à `lineCoverage` dans `tests/coverage-baseline.json`. Ce seuil n'est relevé qu'à la hausse (quand le contrôle signale +1 point, le relever à la valeur mesurée arrondie à l'inférieur), jamais abaissé.
+- Le contrôle est l'étape « Couverture (90 % du code modifié, global au moins au seuil) » du job requis « JBOpale.MathAdvanced - Tests PR » (script `.github/scripts/Test-Coverage.ps1`, collecte coverlet configurée par `coverage.runsettings`).
+- Jamais d'exclusion de couverture (`[ExcludeFromCodeCoverage]`, filtre dans `coverage.runsettings`…), jamais de seuil abaissé, jamais de test désactivé ou sauté pour faire passer le contrôle.
+- Avant d'ouvrir ou de mettre à jour une PR, toute session mesure la couverture et lance le script :
+  ```
+  dotnet test UnitTest/UnitTest.csproj -c Release --collect:"XPlat Code Coverage" --settings coverage.runsettings --results-directory TestResults
+  pwsh ./.github/scripts/Test-Coverage.ps1 -ReportsDir TestResults -BaseRef origin/dev
+  ```
+  Si le code modifié est sous 90 %, écrire les tests manquants (tests significatifs, pas de simple appel sans assertion).

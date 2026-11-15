@@ -35,6 +35,9 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Historique complet : le contrôle de couverture compare HEAD à origin/<branche de base>.
+          fetch-depth: 0
 
       - name: Installer le SDK .NET 10
         uses: actions/setup-dotnet@v4
@@ -77,4 +80,16 @@ jobs:
         run: dotnet build JBOpale.MathAdvanced.sln --configuration Release --no-restore
 
       - name: Tests UnitTest (net461 et net10.0)
-        run: dotnet test UnitTest/UnitTest.csproj --configuration Release --no-build
+        run: dotnet test UnitTest/UnitTest.csproj --configuration Release --no-build --collect:"XPlat Code Coverage" --settings coverage.runsettings --results-directory TestResults
+
+      # Règle « couverture de code » (CLAUDE.md) : au moins 90 % des lignes couvrables ajoutées/modifiées par la PR,
+      # et couverture globale jamais sous tests/coverage-baseline.json. Fait partie du check requis.
+      # workflow_dispatch : pas de branche de base, seule la règle globale s'applique.
+      - name: Couverture (90 % du code modifié, global au moins au seuil)
+        if: ${{ !cancelled() }}
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          $base = ''
+          if ($env:BASE_REF) { $base = "origin/$($env:BASE_REF)" }
+          ./.github/scripts/Test-Coverage.ps1 -ReportsDir TestResults -BaseRef $base -Baseline tests/coverage-baseline.json -Threshold 90

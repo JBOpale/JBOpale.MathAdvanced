@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <!-- Collecte de la couverture de code (coverage.runsettings, contrôle dans pr-tests.yml) -->
+    <PackageReference Include="coverlet.collector" Version="6.0.4" />
   </ItemGroup>
 
   <!-- MSTest 3.x ne cible plus net461 : on garde 2.2.7 pour net461 -->
