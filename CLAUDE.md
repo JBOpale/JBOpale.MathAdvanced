@@ -32,3 +32,19 @@ Cette règle s'applique à tout nouveau workflow créé dans `.github/workflows/
 - Plus de push direct sur les branches protégées (`dev`, `main`) : toute modification passe par une PR.
 - Tout nouveau projet de tests doit être ajouté à `pr-tests.yml` (une étape `dotnet test` par projet).
 - Le ruleset correspondant est dans `.github/rulesets/tests-obligatoires.json` (import via Settings → Rules → Rulesets → Import a ruleset).
+
+## Règle : aucun paquet vulnérable avant de passer sur main
+
+- Aucune modification n'arrive sur `main` ou `dev` avec un paquet NuGet présentant une vulnérabilité **haute ou critique**, directe ou transitive.
+- Le contrôle est l'étape « Paquets vulnérables (haute / critique) » du job requis de `pr-tests.yml` (`dotnet list JBOpale.MathAdvanced.sln package --vulnerable --include-transitive --format json`) : il fait partie du check « JBOpale.MathAdvanced - Tests PR ». Les vulnérabilités faibles/modérées sont signalées en avertissement.
+- Toute session lance ce contrôle localement avant d'ouvrir ou de mettre à jour une PR.
+- Correction : mise à jour de la dépendance, ou épinglage d'une version corrigée pour une dépendance transitive (avec un commentaire citant l'avis GHSA).
+- Ne jamais retirer, ignorer ou contourner ce contrôle, ni baisser son seuil.
+- Tout nouveau projet doit être couvert par le contrôle : l'ajouter à `JBOpale.MathAdvanced.sln` (projet SDK / PackageReference). Un projet `packages.config` devra être couvert autrement (NuGetAudit au restore, `NuGetAuditLevel=high`, NU1903/NU1904 en erreur).
+
+## Règle : suivi des actions en cours
+
+- Jérôme suit les actions en attente de tous ses projets dans le tableau « Suivi des actions » : https://claude.ai/artifact/41ayfFGBTCRjpUJH4pgf1P
+- Toute session utilise le skill `suivi-actions` pour le tenir à jour à la fin de chaque chantier, et chaque fois qu'elle rend la main avec une action qui dépend de lui (décision, validation, étape manuelle, secret à créer, PR à fusionner, ruleset à importer, réponse externe).
+- Lire l'existant avant d'ajouter (pas de doublon) ; passer à `doing` / `done` ce qui avance.
+- Jamais de secret dans le tableau ; ne jamais supprimer une action.
