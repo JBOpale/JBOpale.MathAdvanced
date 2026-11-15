@@ -1,11 +1,11 @@
 name: JBOpale.MathAdvanced - Tests
 
-# Valide les tests avant de fusionner ou de tagger une version (v*).
-# Le job s'appelle `test` : c'est le contexte exigé par le ruleset « Protection de la branche par défaut ».
+# Valide les tests après chaque push sur main.
+# Les tests des pull requests sont lancés par pr-tests.yml (check requis « JBOpale.MathAdvanced - Tests PR ») :
+# le déclencheur pull_request a été retiré ici pour éviter les doubles exécutions.
 on:
   push:
     branches: [ main ]
-  pull_request:
 
 jobs:
   test:

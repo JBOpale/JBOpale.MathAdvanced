@@ -1,0 +1,51 @@
+name: JBOpale.MathAdvanced - Tests PR
+
+# Check exigé par le ruleset « Tests obligatoires avant fusion » (.github/rulesets/tests-obligatoires.json) :
+# aucune pull request vers dev ou main ne peut être fusionnée tant que ce job n'est pas vert.
+# NE JAMAIS ajouter de filtre `paths` ni de condition `if:` sur le job : un check requis absent bloque la PR,
+# et un job sauté compte comme réussi.
+on:
+  pull_request:
+    branches: [ dev, main ]
+    types: [ opened, synchronize, reopened, ready_for_review ]
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: JBOpale.MathAdvanced - Tests PR
+    # Dépôt public : le runner self-hosted ne doit jamais exécuter le code d'une PR venant d'un fork.
+    # Les PR de fork partent sur ubuntu-latest, où la première étape échoue volontairement.
+    runs-on: ${{ (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository) && 'ubuntu-latest' || fromJSON('["self-hosted","Windows","SURFACE-BOOK-3"]') }}
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: Refuser les PR venant d'un fork
+        env:
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          EVENT_NAME: ${{ github.event_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          if ($env:EVENT_NAME -eq 'pull_request' -and $env:HEAD_REPO -ne $env:REPO) {
+            Write-Host "::error::PR venant d'un fork ($env:HEAD_REPO) : les tests ne sont pas exécutés sur le runner self-hosted. Un mainteneur doit reprendre la branche dans le dépôt."
+            exit 1
+          }
+          Write-Host "PR interne au dépôt : tests autorisés."
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installer le SDK .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restauration
+        run: dotnet restore JBOpale.MathAdvanced.sln
+
+      - name: Compilation
+        run: dotnet build JBOpale.MathAdvanced.sln --configuration Release --no-restore
+
+      - name: Tests UnitTest (net461 et net10.0)
+        run: dotnet test UnitTest/UnitTest.csproj --configuration Release --no-build
