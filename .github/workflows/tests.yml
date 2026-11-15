@@ -9,7 +9,11 @@ on:
 
 jobs:
   test:
+    name: JBOpale.MathAdvanced - Tests
     runs-on: [self-hosted, Windows, SURFACE-BOOK-3]
+    defaults:
+      run:
+        shell: pwsh
 
     steps:
       - name: Checkout

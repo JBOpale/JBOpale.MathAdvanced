@@ -8,7 +8,11 @@ on:
 jobs:
   # La publication est bloquée tant que tous les tests ne passent pas, sur net461 et net10.0.
   test:
+    name: JBOpale.MathAdvanced - Tests avant publication
     runs-on: [self-hosted, Windows, SURFACE-BOOK-3]
+    defaults:
+      run:
+        shell: pwsh
 
     steps:
       - name: Checkout
@@ -23,6 +27,7 @@ jobs:
         run: dotnet test JBOpale.MathAdvanced.sln --configuration Release
 
   publish:
+    name: JBOpale.MathAdvanced - Publication NuGet
     needs: test
     runs-on: [self-hosted, Windows, SURFACE-BOOK-3]
     # Trusted Publishing : id-token: write permet l'échange OIDC contre une clé NuGet temporaire.
