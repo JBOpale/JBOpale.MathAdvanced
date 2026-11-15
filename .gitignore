@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Rapports de couverture (coverlet)
+TestResults/
+# Référence de couverture globale versionnée (règle « couverture de code »)
+!tests/coverage-baseline.json

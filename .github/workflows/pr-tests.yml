@@ -1,0 +1,95 @@
+name: JBOpale.MathAdvanced - Tests PR
+
+# Check exigé par le ruleset « Tests obligatoires avant fusion » (.github/rulesets/tests-obligatoires.json) :
+# aucune pull request vers dev ou main ne peut être fusionnée tant que ce job n'est pas vert.
+# NE JAMAIS ajouter de filtre `paths` ni de condition `if:` sur le job : un check requis absent bloque la PR,
+# et un job sauté compte comme réussi.
+on:
+  pull_request:
+    branches: [ dev, main ]
+    types: [ opened, synchronize, reopened, ready_for_review ]
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: JBOpale.MathAdvanced - Tests PR
+    # Dépôt public : le runner self-hosted ne doit jamais exécuter le code d'une PR venant d'un fork.
+    # Les PR de fork partent sur ubuntu-latest, où la première étape échoue volontairement.
+    runs-on: ${{ (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository) && 'ubuntu-latest' || fromJSON('["self-hosted","Windows","SURFACE-BOOK-3"]') }}
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: Refuser les PR venant d'un fork
+        env:
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          EVENT_NAME: ${{ github.event_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          if ($env:EVENT_NAME -eq 'pull_request' -and $env:HEAD_REPO -ne $env:REPO) {
+            Write-Host "::error::PR venant d'un fork ($env:HEAD_REPO) : les tests ne sont pas exécutés sur le runner self-hosted. Un mainteneur doit reprendre la branche dans le dépôt."
+            exit 1
+          }
+          Write-Host "PR interne au dépôt : tests autorisés."
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Historique complet : le contrôle de couverture compare HEAD à origin/<branche de base>.
+          fetch-depth: 0
+
+      - name: Installer le SDK .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restauration
+        run: dotnet restore JBOpale.MathAdvanced.sln
+
+      # Contrôle obligatoire des paquets vulnérables : fait partie du check requis (pas de job séparé).
+      # Tous les projets du dépôt sont au format SDK (PackageReference) : `dotnet list package --vulnerable`
+      # s'applique à toute la solution, dépendances transitives comprises. Tout nouveau projet ajouté à la
+      # solution est donc couvert automatiquement. Haute/critique → échec ; faible/modérée → avertissement.
+      # Ne jamais baisser ce seuil ni retirer cette étape.
+      - name: Paquets vulnérables (haute / critique)
+        run: |
+          $json = dotnet list JBOpale.MathAdvanced.sln package --vulnerable --include-transitive --format json
+          if ($LASTEXITCODE -ne 0) { Write-Host ($json -join "`n"); throw "dotnet list package --vulnerable a échoué (code $LASTEXITCODE)." }
+          $rapport = ($json -join "`n") | ConvertFrom-Json
+          foreach ($pb in @($rapport.problems)) { if ($pb) { throw "Contrôle des vulnérabilités impossible : $($pb.text)" } }
+          $bloquantes = 0
+          foreach ($projet in @($rapport.projects)) {
+            foreach ($fw in @($projet.frameworks)) {
+              if (-not $fw) { continue }
+              foreach ($pkg in @($fw.topLevelPackages) + @($fw.transitivePackages)) {
+                if (-not $pkg) { continue }
+                foreach ($v in @($pkg.vulnerabilities)) {
+                  if (-not $v) { continue }
+                  $msg = "$(Split-Path $projet.path -Leaf) [$($fw.framework)] $($pkg.id) $($pkg.resolvedVersion) : $($v.severity) - $($v.advisoryurl)"
+                  if ($v.severity -in 'High', 'Critical') { Write-Host "::error::$msg"; $bloquantes++ }
+                  else { Write-Host "::warning::$msg" }
+                }
+              }
+            }
+          }
+          if ($bloquantes -gt 0) { throw "$bloquantes vulnérabilité(s) haute(s) ou critique(s) détectée(s)." }
+          Write-Host "Aucune vulnérabilité haute ou critique."
+
+      - name: Compilation
+        run: dotnet build JBOpale.MathAdvanced.sln --configuration Release --no-restore
+
+      - name: Tests UnitTest (net461 et net10.0)
+        run: dotnet test UnitTest/UnitTest.csproj --configuration Release --no-build --collect:"XPlat Code Coverage" --settings coverage.runsettings --results-directory TestResults
+
+      # Règle « couverture de code » (CLAUDE.md) : au moins 90 % des lignes couvrables ajoutées/modifiées par la PR,
+      # et couverture globale jamais sous tests/coverage-baseline.json. Fait partie du check requis.
+      # workflow_dispatch : pas de branche de base, seule la règle globale s'applique.
+      - name: Couverture (90 % du code modifié, global au moins au seuil)
+        if: ${{ !cancelled() }}
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          $base = ''
+          if ($env:BASE_REF) { $base = "origin/$($env:BASE_REF)" }
+          ./.github/scripts/Test-Coverage.ps1 -ReportsDir TestResults -BaseRef $base -Baseline tests/coverage-baseline.json -Threshold 90

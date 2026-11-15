@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Paramètres communs de collecte de couverture (coverlet), utilisés par pr-tests.yml et en local
+     (voir la section « Règle : couverture de code » de CLAUDE.md pour la commande).
+     Ne jamais ajouter d'exclusion pour faire passer le contrôle (règle « couverture de code » de CLAUDE.md). -->
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>cobertura</Format>
+          <Include>[JBOpale.MathAdvanced]*</Include>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>
